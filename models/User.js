@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const thoughtSchema = require('./Thought');
 
-const userSchmea = new Schema(
+const userSchema = new Schema(
     {
         username: {
             type: String,
@@ -35,7 +35,7 @@ const userSchmea = new Schema(
         id: false,
     }
 );
-userSchmea
+userSchema
     .virtual('friendCount')
     .get(function () {
         return this.friends.length
