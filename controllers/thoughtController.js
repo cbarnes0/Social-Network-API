@@ -100,7 +100,7 @@ addReaction(req, res) {
 // delete to pull and remove a reaction by the reactions
 // 'reactionId' value
 removeReaction(req, res) {
-    Thought.findOneAndUpdate(
+    Thought.findByIdAndUpdate(
       { _id: req.params.thoughtId },
       { $pull: { tags: { reactionId: req.params.reactionId } } },
       { runValidators: true, new: true }
