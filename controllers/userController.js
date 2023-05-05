@@ -22,7 +22,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // create a new user
+  // create a new user (POST)
   createUser(req, res) {
     User.create(req.body)
       .then((user) => res.json(user))
@@ -31,7 +31,7 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
-  // update a user
+  // update a user (PUT)
   updateUser(req, res) {
     User.findOneAndUpdate(
         { _id: req.params.userId },
