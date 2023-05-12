@@ -61,25 +61,35 @@ updateThought(req, res) {
 },
 
 // delete to remove a thought by its '_id'
+// deleteThought(req, res) {
+//     Thought.findOneAndRemove({ _id: req.params.thoughtId })
+//       .then((thought) =>
+//         !thought
+//           ?res.status(404).json({ message: 'No thought with this ID!'})
+//           : User.findByIdAndUpdate(
+//             { thoughts: req.params.thoughtId },
+//             { $pull: { thoughts: req.params.thoughtId }},
+//             { new: true }
+//           )
+//     )
+//     .then((user) =>
+//       !user
+//        ? res.status(404).json({
+//         message: 'Thought deleted but no user with this ID!',
+//        })
+//        : res.json({ message: 'Thought successfully deleted! 🎉'})
+//        )
+//        .catch((err) => res.status(500).json(err));
+// },
+
 deleteThought(req, res) {
-    Thought.findOneAndRemove({ _id: req.params.thoughtId })
-      .then((thought) =>
-        !thought
-          ?res.status(404).json({ message: 'No thought with this ID!'})
-          : User.findByIdAndUpdate(
-            { thoughts: req.params.thoughtId },
-            { $pull: { thoughts: req.params.thoughtId }},
-            { new: true }
-          )
+  Thought.findOneAndDelete({ _id: req.params.thoughtId })
+    .then((thought) =>
+      !thought
+        ? res.status(404).json({ message: 'No thought with that ID' })
+        : res.json({ message: 'Thought succesfully deleted!' })
     )
-    .then((user) =>
-      !user
-       ? res.status(404).json({
-        message: 'Thought deleted but no user with this ID!',
-       })
-       : res.json({ message: 'Application successfully deleted! 🎉'})
-       )
-       .catch((err) => res.status(500).json(err));
+    .catch((err) => res.status(500).json(err));
 },
 
 // post to create a reaction stored in a single thoughts 'reactions'
@@ -102,7 +112,7 @@ addReaction(req, res) {
 removeReaction(req, res) {
     Thought.findByIdAndUpdate(
       { _id: req.params.thoughtId },
-      { $pull: { tags: { reactionId: req.params.reactionId } } },
+      { $pull: { reactions: { _id: req.params.reactionId } } },
       { runValidators: true, new: true }
     )
       .then((thought) =>
